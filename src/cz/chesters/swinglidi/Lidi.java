@@ -14,6 +14,7 @@ public class Lidi {
     JTextField imput = new JTextField();
     JButton deleteRow = new JButton("Delete selected rows");
     JButton addRow = new JButton("Add a row");
+    JButton filter = new JButton("🔍");
 
     public void doShit() {
         funguj();
@@ -26,21 +27,26 @@ public class Lidi {
         frame.setResizable(false);
 
         prepare(tabule);
-        tabule.setBounds(1, 45, 582, 412);
+        tabule.setBounds(1, 100, 582, 358);
         tabule.setBorder(new LineBorder(new Color(0, 0, 0), 2));
         tabule.setDefaultRenderer(Object.class, new TohleVsechnoJenomAbyBylPrvniRadekTabulkyTucnej());
 
 
-        imput.setBounds(50, 12, 500, 20);
+        prepare(imput);
+        imput.setBounds(50, 12, 440, 20);
 
 
-        deleteRow.setBounds(100, 12, 175, 25);
+        deleteRow.setBounds(100, 44, 175, 25);
         deleteRow.addActionListener(this::whatIfSomebodyActuallyClickedOneOfTheButtonsLikeWouldntThatBePrettyCool);
         prepare(deleteRow);
 
-        addRow.setBounds(300, 12, 175, 25);
+        addRow.setBounds(300, 44, 175, 25);
         addRow.addActionListener(this::whatIfSomebodyActuallyClickedOneOfTheButtonsLikeWouldntThatBePrettyCool);
         prepare(addRow);
+
+        filter.setBounds(495, 12, 20, 20);
+        filter.addActionListener(this::whatIfSomebodyActuallyClickedOneOfTheButtonsLikeWouldntThatBePrettyCool);
+        prepare(filter);
 
 
         frame.setVisible(true);
@@ -54,6 +60,15 @@ public class Lidi {
                 lordAndSaviorDefaultTableModel.removeRow(tabule.getSelectedRow());
         } else if (addRow.equals(source)) {
             lordAndSaviorDefaultTableModel.addRow(randomBullshit(8));
+        } else if (filter.equals(source)){
+            tabule.clearSelection();
+            for (int x = 0; x < tabule.getColumnCount(); x++){
+                for (int y = 0; y < tabule.getRowCount();y++){
+                    if (tabule.getValueAt(y, x).equals(imput.getText())){
+                        tabule.changeSelection(y, x, true, false);
+                    }
+                }
+            }
         }
 
         frame.update(frame.getGraphics());
